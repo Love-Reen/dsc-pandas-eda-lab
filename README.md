@@ -93,14 +93,19 @@ And set `%matplotlib inline` so the graphs will display immediately below the ce
 
 
 ```python
-# Your code here
+import pandas as pd
+import matplotlib.pyplot as plt
+%matplotlib inline
+
 ```
 
 Now, use pandas to open the file located at `data/ames.csv` ([documentation here](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html)). Specify the argument `index_col=0` in order to avoid creating an extra `Id` column. Name the resulting dataframe `df`.
 
 
 ```python
-# Your code here
+df = pd.read_csv('data/ames.csv', index_col=0)
+
+df.head()
 ```
 
 The following code checks that you loaded the data correctly:
@@ -146,7 +151,28 @@ In the cell below, produce a histogram for `SalePrice`.
 
 
 ```python
-# Your code here
+# Calculate the mean of SalePrice
+mean_saleprice = df['SalePrice'].mean()
+
+# Set up the plot
+fig, ax = plt.subplots(figsize=(10, 6))
+
+# Plot the histogram
+ax.hist(df['SalePrice'], bins=50, edgecolor='black', alpha=0.7) # Adjust bins as needed
+
+# Add a vertical line for the mean
+ax.axvline(mean_saleprice, color='black', linestyle='dashed', linewidth=2, label=f'Mean: ${mean_saleprice:,.2f}')
+
+# Set title and labels
+ax.set_title('Distribution of Sale Price')
+ax.set_xlabel('Sale Price (USD)')
+ax.set_ylabel('Number of Houses')
+
+# Add a legend for the mean line
+ax.legend()
+
+# Display the plot
+plt.show()
 ```
 
 Now, print out the mean, median, and standard deviation:
@@ -154,6 +180,13 @@ Now, print out the mean, median, and standard deviation:
 
 ```python
 # Your code here
+mean_saleprice = df['SalePrice'].mean()
+median_saleprice = df['SalePrice'].median()
+std_dev_saleprice = df['SalePrice'].std()
+
+print(f"Mean SalePrice: ${mean_saleprice:,.2f}")
+print(f"Median SalePrice: ${median_saleprice:,.2f}")
+print(f"Standard Deviation SalePrice: ${std_dev_saleprice:,.2f}")
 ```
 
 In the cell below, interpret the above information.
@@ -162,7 +195,9 @@ In the cell below, interpret the above information.
 ```python
 # Replace None with appropriate text
 """
-None
+Mean SalePrice is $180,921.20 but Median SalePrice is $163,000.00 meaning the mean is higher than the median thus showing that the prices are not spread out evenly..
+Most houses are ranging around the median price but a few super pricey ones are skewing the average.
+Standard Deviation SalePrice is $79,442.50 telling us how much the prices typically vary from that average and it specifically shows that houses are not selling for pretty much the same amount so there is a wide range of value in the market.
 """
 ```
 
@@ -172,14 +207,42 @@ In the cell below, produce a histogram for `TotRmsAbvGrd`.
 
 
 ```python
-# Your code here
+# Calculate the mean of TotRmsAbvGrd
+mean_totrms = df['TotRmsAbvGrd'].mean()
+
+# Set up the plot
+fig, ax = plt.subplots(figsize=(10, 6))
+
+# Plot the histogram
+ax.hist(df['TotRmsAbvGrd'], bins=range(df['TotRmsAbvGrd'].min(), df['TotRmsAbvGrd'].max() + 2),
+        edgecolor='black', alpha=0.7, align='left') # bins adjusted for discrete room counts
+
+# Add a vertical line for the mean
+ax.axvline(mean_totrms, color='black', linestyle='dashed', linewidth=2, label=f'Mean: {mean_totrms:.2f}')
+
+# Set title and labels
+ax.set_title('Distribution of Total Rooms Above Grade')
+ax.set_xlabel('Total Rooms Above Grade')
+ax.set_ylabel('Number of Houses')
+
+# Add a legend for the mean line
+ax.legend()
+
+# Display the plot
+plt.show()
 ```
 
 Now, print out the mean, median, and standard deviation:
 
 
 ```python
-# Your code here
+mean_totrms = df['TotRmsAbvGrd'].mean()
+median_totrms = df['TotRmsAbvGrd'].median()
+std_dev_totrms = df['TotRmsAbvGrd'].std()
+
+print(f"Mean Total Rooms Above Grade: {mean_totrms:.2f}")
+print(f"Median Total Rooms Above Grade: {median_totrms:.0f}") # Used .0f for whole numbers of rooms
+print(f"Standard Deviation Total Rooms Above Grade: {std_dev_totrms:.2f}")
 ```
 
 In the cell below, interpret the above information.
@@ -188,7 +251,11 @@ In the cell below, interpret the above information.
 ```python
 # Replace None with appropriate text
 """
-None
+For 'Total Rooms Above Grade', the mean is 6.52 while the median is 6 thus telling me that the number of rooms is pretty close to be evenly distributed.
+Since the mean is just slightly higher than the median, it might mean there are a few houses with more rooms, but not enough to drastically pull the average way up.
+Most houses seem to have around 6 rooms. 
+The standard deviation is 1.63, which means the typical number of rooms doesn't vary that much from the average.
+So, while there's some variety, most houses are probably within one or two rooms of that 6-room mark.
 """
 ```
 
@@ -198,14 +265,42 @@ In the cell below, produce a histogram for `OverallCond`.
 
 
 ```python
-# Your code here
+# Calculate the mean of OverallCond
+mean_overallcond = df['OverallCond'].mean()
+
+# Set up the plot
+fig, ax = plt.subplots(figsize=(10, 6))
+
+# Plot the histogram
+# Since OverallCond is an integer rating, setting specific bins might be helpful
+ax.hist(df['OverallCond'], bins=range(1, 12), edgecolor='black', alpha=0.7, align='left') # Bins from 1 to 11 for values 1-10
+
+# Add a vertical line for the mean
+ax.axvline(mean_overallcond, color='black', linestyle='dashed', linewidth=2, label=f'Mean: {mean_overallcond:.2f}')
+
+# Set title and labels
+ax.set_title('Distribution of Overall Condition')
+ax.set_xlabel('Overall Condition Rating')
+ax.set_ylabel('Number of Houses')
+
+# Add a legend for the mean line
+ax.legend()
+
+# Display the plot
+plt.show()
 ```
 
 Now, print out the mean, median, and standard deviation:
 
 
 ```python
-# Your code here
+mean_overallcond = df['OverallCond'].mean()
+median_overallcond = df['OverallCond'].median()
+std_dev_overallcond = df['OverallCond'].std()
+
+print(f"Mean Overall Condition: {mean_overallcond:.2f}")
+print(f"Median Overall Condition: {median_overallcond:.0f}") # It's a rating, so round to whole number
+print(f"Standard Deviation Overall Condition: {std_dev_overallcond:.2f}")
 ```
 
 In the cell below, interpret the above information.
@@ -214,7 +309,10 @@ In the cell below, interpret the above information.
 ```python
 # Replace None with appropriate text
 """
-None
+Mean is 5.58 and the median is 5 -This looks like most houses are rated around 'Average' (which is a 5) or maybe just slightly better than average. 
+The mean being a little higher than the median could mean there are more houses rated 'Above Average' or 'Good' compared to 'Below Average' or 'Fair', just slightly skewing it up.
+The standard deviation is 1.11, which is pretty small - This tells me that the condition ratings don't really spread out too much. 
+Most houses are probably clustered around the 'Average' rating, maybe a little above or below. It means we don't see a huge number of 'Very Excellent' or 'Very Poor' houses in this dataset; most are somewhere in the middle
 """
 ```
 
@@ -304,7 +402,11 @@ Interpret the plot above. What does it tell us about these overall condition cat
 ```python
 # Replace None with appropriate text
 """
-None
+It's pretty clear that there's a strong connection between a house's condition and its sale price. The above_average_condition houses (the cyan bars) definitely tend to sell for much higher prices. 
+Their distribution is shifted way to the right compared to the others.
+The average_condition houses (the gray bars) are where most sales happen, and their prices are in that middle range, which makes sense.
+And then the below_average_condition houses (the yellow bars) are pretty much all on the lower end of the sale price spectrum. Their distribution is squashed over to the left.
+Better condition generally means a higher price – that's what you'd expect in real life, right? What might be a bit surprising is just how clearly separated those distributions are. It really shows that 'OverallCond' isn't just a minor factor; it has a huge impact on how much a house sells for. It also confirms that treating 'OverallCond' as a categorical thing for this kind of analysis was a good idea, because the groups behave so differently.
 """
 ```
 
@@ -320,14 +422,36 @@ You can import additional libraries, although it is possible to do this just usi
 
 
 ```python
-# Your code here
+# Calculate correlations of all numeric columns with 'SalePrice'
+correlations = df.corr(numeric_only=True)['SalePrice'].sort_values(ascending=False)
+
+# Get the most positively correlated feature (excluding SalePrice itself)
+# The first one in the sorted list will be SalePrice, so we take the second one.
+most_positive_corr_feature = correlations.index[1]
+most_positive_corr_value = correlations.iloc[1]
+
+print(f"Most positively correlated feature with SalePrice: {most_positive_corr_feature}")
+print(f"Correlation value: {most_positive_corr_value:.4f}") # Print with 4 decimal places for precision
 ```
 
 Now, find the ***most negatively correlated*** column:
 
 
 ```python
-# Your code here
+# Calculate correlations of all numeric columns with 'SalePrice' (if not already done, though it should be from last step)
+# correlations = df.corr(numeric_only=True)['SalePrice'].sort_values(ascending=False)
+# If you run the above line again, it will sort descending (highest positive first).
+# For most negative, we can just look at the end of that list, or sort ascending this time.
+
+# Let's re-calculate and sort ascending to easily get the most negative at the top
+correlations_ascending = df.corr(numeric_only=True)['SalePrice'].sort_values(ascending=True)
+
+# The first one in this ascending sorted list will be the most negatively correlated
+most_negative_corr_feature = correlations_ascending.index[0]
+most_negative_corr_value = correlations_ascending.iloc[0]
+
+print(f"Most negatively correlated feature with SalePrice: {most_negative_corr_feature}")
+print(f"Correlation value: {most_negative_corr_value:.4f}")
 ```
 
 Once you have your answer, edit the code below so that it produces a box plot of the relevant columns.
@@ -342,24 +466,27 @@ fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=(15,5))
 
 # Plot distribution of column with highest correlation
 sns.boxplot(
-    x=None,
+    x=df["OverallQual"], # Most positively correlated feature
     y=df["SalePrice"],
     ax=ax1
 )
 # Plot distribution of column with most negative correlation
 sns.boxplot(
-    x=None,
+    x=df["KitchenAbvGr"], # Most negatively correlated feature
     y=df["SalePrice"],
     ax=ax2
 )
 
 # Customize labels
-ax1.set_title(None)
-ax1.set_xlabel(None)
+ax1.set_title("Sale Price Distribution by Overall Quality")
+ax1.set_xlabel("Overall Quality Rating")
 ax1.set_ylabel("Sale Price")
-ax2.set_title(None)
-ax2.set_xlabel(None)
+ax2.set_title("Sale Price Distribution by Kitchens Above Grade")
+ax2.set_xlabel("Number of Kitchens Above Grade")
 ax2.set_ylabel("Sale Price");
+
+plt.tight_layout()
+plt.show()
 ```
 
 Interpret the results below. Consult `data/data_description.txt` as needed.
@@ -368,7 +495,11 @@ Interpret the results below. Consult `data/data_description.txt` as needed.
 ```python
 # Replace None with appropriate text
 """
-None
+For OverallQual (how good the house is):
+The better the house's quality rating, the higher its sale price. The boxes just climb higher and higher the more 'quality' a house has. A really nice house sells for way more than a run-down one.
+
+For KitchenAbvGr (number of kitchens):
+Most houses have just one kitchen, and they sell for typical prices. But surprisingly, houses with two kitchens actually seem to sell for less money than houses with one kitchen. So, more kitchens above ground doesn't always mean more value in this dataset. It's like having a second kitchen might be for a reason that lowers the appeal for most buyers.
 """
 ```
 
@@ -409,7 +540,9 @@ Interpret this plot below:
 ```python
 # Replace None with appropriate text
 """
-None
+You can see a general trend where older houses tend to sell for less money, and newer houses generally sell for more. The dots seem to be denser and higher up on the left side (younger ages) and spread out more and lower as you move to the right (older ages).
+However, it's not a super tight line. There's a lot of scatter, meaning you can still find some older houses that sold for a good amount, and some newer ones that sold for less.
+It's not a perfect correlation, but the overall pattern is definitely there. It's like 'age' has an impact, but it's not the only thing deciding the price, which makes sense since we already saw how 'Overall Quality' was a big deal too.
 """
 ```
 
